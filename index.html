@@ -19,21 +19,52 @@
   </style>
 </head>
 <body>
-  <header class="hero"><div class="brand"><div class="brand-left"><div class="mark">P</div><div><h1 id="companyName">People Desk</h1><p>Calm, local-first HR administration</p></div></div><div class="privacy">● Stored only in this browser</div></div></header>
-  <main>
+  <section id="authPanel" class="card" style="max-width:420px;margin:60px auto;padding:24px;">
+  <h2 style="margin-top:0;">Sync2VA HR Login</h2>
+  <p class="desc">Sign in to access the online HR database.</p>
+
+  <form id="loginForm">
+    <label class="full">
+      Email
+      <input id="loginEmail" type="email" required>
+    </label>
+
+    <label class="full">
+      Password
+      <input id="loginPassword" type="password" required>
+    </label>
+
+    <div class="form-actions full">
+      <button class="button" type="submit">Sign in</button>
+    </div>
+  </form>
+</section>
+  <header class="hero" hidden><div class="brand"><div class="brand-left"><div class="mark">P</div><div><h1 id="companyName">People Desk</h1><p>Calm, local-first HR administration</p></div></div><div class="actions">
+  <button id="logoutBtn" class="button secondary small" type="button">Log out</button>
+  <div class="privacy">● Saved securely online</div>
+</div></div></header>
+  <main hidden>
     <nav class="tabs" aria-label="Workspace sections"><button class="tab" data-view="overview" aria-selected="true">Overview</button><button class="tab" data-view="people">People</button><button class="tab" data-view="tasks">Tasks</button><button class="tab" data-view="documents">Documents</button><button class="tab" data-view="settings">Settings & backup</button></nav>
     <section class="view active" id="overview"><div class="heading"><div><p class="eyebrow">Today’s workspace</p><h2>Everything in one quiet place.</h2><p class="desc">A lightweight, offline-first space for the essentials.</p></div><button class="button" data-action="new-task">+ Add task</button></div><div class="grid stats" id="stats"></div><div class="grid two"><article class="card"><div class="card-header"><h3>Upcoming tasks</h3><button class="button secondary small" data-goto="tasks">View all</button></div><div class="item-list" id="upcomingTasks"></div></article><article class="card"><div class="card-header"><h3>Recent people</h3><button class="button secondary small" data-goto="people">Manage people</button></div><div class="item-list" id="recentPeople"></div></article></div></section>
     <section class="view" id="people"><div class="heading"><div><p class="eyebrow">Directory</p><h2>Your people.</h2><p class="desc">Keep role, contact, and employment details together.</p></div><button class="button" data-action="new-person">+ Add person</button></div><div class="card"><div class="table-wrap"><table><thead><tr><th>Name</th><th>Role / department</th><th>Contact</th><th>Status</th><th></th></tr></thead><tbody id="peopleRows"></tbody></table></div></div></section>
     <section class="view" id="tasks"><div class="heading"><div><p class="eyebrow">Action queue</p><h2>Tasks with a pulse.</h2><p class="desc">Sort the next useful thing from the background noise.</p></div><button class="button" data-action="new-task">+ Add task</button></div><div class="card"><div class="table-wrap"><table><thead><tr><th>Task</th><th>Owner</th><th>Due</th><th>Priority</th><th>Status</th><th></th></tr></thead><tbody id="taskRows"></tbody></table></div></div></section>
     <section class="view" id="documents"><div class="heading"><div><p class="eyebrow">Reference shelf</p><h2>Document links.</h2><p class="desc">Store only secure HTTPS links; no documents are uploaded or transmitted.</p></div><button class="button" data-action="new-document">+ Add link</button></div><div class="grid two" id="documentCards"></div></section>
-    <section class="view" id="settings"><div class="heading"><div><p class="eyebrow">Local data</p><h2>Settings & backup.</h2><p class="desc">Your workspace stays on this device until you export or clear it.</p></div></div><div class="grid two"><article class="card"><h3>Workspace name</h3><form id="settingsForm"><label class="full">Company / workspace name<input id="workspaceInput" maxlength="80" required></label><div class="form-actions full"><button class="button" type="submit">Save name</button></div></form></article><article class="card"><h3>Data controls</h3><div class="actions"><button class="button secondary" data-action="export">Export backup</button><label class="button secondary" for="importFile">Import backup</label><input id="importFile" hidden type="file" accept="application/json,.json"><button class="button danger" data-action="clear-all">Clear all data</button></div><p class="footer-note">Import accepts only this app’s JSON backup format. External URLs are validated on display.</p></article></div><p class="footer-note">People Desk is a browser-only tool, not a payroll, legal, or access-control system.</p></section>
+    <section class="view" id="settings"><div class="heading"><div><p class="eyebrow">Online database</p>
+<h2>Settings & backup.</h2>
+<p class="desc">Your workspace is saved online and available after login.</p></div></div><div class="grid two"><article class="card"><h3>Workspace name</h3><form id="settingsForm"><label class="full">Company / workspace name<input id="workspaceInput" maxlength="80" required></label><div class="form-actions full"><button class="button" type="submit">Save name</button></div></form></article><article class="card"><h3>Data controls</h3><div class="actions"><button class="button secondary" data-action="export">Export backup</button><label class="button secondary" for="importFile">Import backup</label><input id="importFile" hidden type="file" accept="application/json,.json"><button class="button danger" data-action="clear-all">Clear all data</button></div><p class="footer-note">Import accepts only this app’s JSON backup format. External URLs are validated on display.</p></article></div><p class="footer-note">People Desk is connected to your secure online HR database.</p></section>
   </main>
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="dialog"><div class="card-header"><div><h3 id="modalTitle">Add item</h3><p id="modalDesc"></p></div><button class="button secondary small" data-action="close-modal" aria-label="Close">Close</button></div><form id="modalForm"></form></div></div>
   <input id="employeeAttachmentFile" hidden type="file">
   <div class="modal" id="fileModal" role="dialog" aria-modal="true" aria-labelledby="fileModalTitle"><div class="dialog"><div class="card-header"><div><h3 id="fileModalTitle">Employee files</h3><p id="fileModalDesc"></p></div><button class="button secondary small" data-action="close-files" aria-label="Close">Close</button></div><div class="item-list" id="fileList"></div></div></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script>
-  'use strict';
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  'use strict'; 
+  const SUPABASE_URL = 'https://bsupjkeogbvmydufcsll.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_WkmEeMhpWRiz7yryIWgU9w_6tT5ZgtV';
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let currentUser = null;
   const KEY = 'people_desk_local_v1';
   const $ = (s, root=document) => root.querySelector(s);
   const el = (tag, props={}, ...children) => { const n=document.createElement(tag); Object.entries(props).forEach(([k,v])=>{ if(k==='className')n.className=v; else if(k==='text')n.textContent=v; else if(k.startsWith('on'))n.addEventListener(k.slice(2),v); else n.setAttribute(k,v); }); n.append(...children.filter(Boolean)); return n; };
@@ -51,7 +82,209 @@
   function normalise(raw){ const base={version:2,seedVersion:0,company:'People Desk',people:[],tasks:[],documents:[]}; if(!raw || typeof raw!=='object') return base; const arr=(x)=>Array.isArray(x)?x.filter(v=>v&&typeof v==='object').slice(0,500):[]; return {version:Number(raw.version)||1,seedVersion:Number(raw.seedVersion)||0,company:clean(raw.company,80)||'People Desk',people:arr(raw.people).map(p=>{const role=canonicalRole(p.role)||clean(p.role,100);return {id:clean(p.id,100)||uid(),name:clean(p.name,100),role,department:canonicalDepartment(p.department)||clean(p.department,100),course:COURSE_OPTIONS.includes(p.course)?p.course:deriveCourse(p.role),email:clean(p.email,160),phone:clean(p.phone,40),homeAddress:clean(p.homeAddress,300),startDate:clean(p.startDate,50),facebookUrl:safeUrl(p.facebookUrl),birthday:clean(p.birthday,50),accountNumber:clean(p.accountNumber,100),bankInstitution:clean(p.bankInstitution,100),status:clean(p.status,40)||'Active',rate:clean(p.rate,80),supervisor:clean(p.supervisor,100),notes:clean(p.notes,600),attachments:arr(p.attachments).map(a=>({id:clean(a.id,100)||uid(),name:clean(a.name,160)||'Attachment',type:clean(a.type,100)||'application/octet-stream',size:Math.max(0,Number(a.size)||0),data:typeof a.data==='string'&&a.data.startsWith('data:')&&a.data.length<1_400_000?a.data:''})).filter(a=>a.data),createdAt:Number(p.createdAt)||Date.now()}}),tasks:arr(raw.tasks).map(t=>({id:clean(t.id,100)||uid(),title:clean(t.title,160),owner:clean(t.owner,100),due:/^\d{4}-\d{2}-\d{2}$/.test(t.due||'')?t.due:'',priority:['Low','Medium','High'].includes(t.priority)?t.priority:'Medium',status:['Open','Done'].includes(t.status)?t.status:'Open',createdAt:Number(t.createdAt)||Date.now()})),documents:arr(raw.documents).map(d=>({id:clean(d.id,100)||uid(),title:clean(d.title,140),category:clean(d.category,80),url:safeUrl(d.url),notes:clean(d.notes,600),createdAt:Number(d.createdAt)||Date.now()}))}; }
   function clean(value,max){ return typeof value==='string'?value.trim().slice(0,max):''; }
   function safeUrl(value){ try { const u=new URL(clean(value,2000)); return u.protocol==='https:'?u.href:''; } catch{return ''} }
-  let state; try{state=normalise(JSON.parse(localStorage.getItem(KEY))); if(!localStorage.getItem(KEY))state=sample()}catch{state=sample()}
+  let state = sample();
+  function dbPersonToState(p) {
+  return {
+    id: p.id,
+    name: p.name || '',
+    role: p.role || '',
+    department: p.department || '',
+    course: p.course || '',
+    email: p.email || '',
+    phone: p.phone || '',
+    homeAddress: p.home_address || '',
+    startDate: p.start_date || '',
+    facebookUrl: p.facebook_url || '',
+    birthday: p.birthday || '',
+    accountNumber: p.account_number || '',
+    bankInstitution: p.bank_institution || '',
+    status: p.status || 'Active',
+    rate: p.rate || '',
+    supervisor: p.supervisor || '',
+    notes: p.notes || '',
+    attachments: [],
+    createdAt: new Date(p.created_at || Date.now()).getTime()
+  };
+}
+
+function dbTaskToState(t) {
+  return {
+    id: t.id,
+    title: t.title || '',
+    owner: t.owner || '',
+    due: t.due || '',
+    priority: t.priority || 'Medium',
+    status: t.status || 'Open',
+    createdAt: new Date(t.created_at || Date.now()).getTime()
+  };
+}
+
+function dbDocumentToState(d) {
+  return {
+    id: d.id,
+    title: d.title || '',
+    category: d.category || '',
+    url: d.url || '',
+    notes: d.notes || '',
+    createdAt: new Date(d.created_at || Date.now()).getTime()
+  };
+}
+
+function personToDb(p) {
+  return {
+    id: p.id,
+    name: p.name,
+    role: p.role || null,
+    department: p.department || null,
+    course: p.course || null,
+    email: p.email || null,
+    phone: p.phone || null,
+    home_address: p.homeAddress || null,
+    start_date: p.startDate || null,
+    facebook_url: p.facebookUrl || null,
+    birthday: p.birthday || null,
+    account_number: p.accountNumber || null,
+    bank_institution: p.bankInstitution || null,
+    status: p.status || 'Active',
+    rate: p.rate || null,
+    supervisor: p.supervisor || null,
+    notes: p.notes || null,
+    created_at: new Date(p.createdAt || Date.now()).toISOString()
+  };
+}
+
+function taskToDb(t) {
+  return {
+    id: t.id,
+    title: t.title,
+    owner: t.owner || null,
+    due: t.due || null,
+    priority: t.priority || 'Medium',
+    status: t.status || 'Open',
+    created_at: new Date(t.createdAt || Date.now()).toISOString()
+  };
+}
+
+function documentToDb(d) {
+  return {
+    id: d.id,
+    title: d.title,
+    category: d.category || null,
+    url: d.url || null,
+    notes: d.notes || null,
+    created_at: new Date(d.createdAt || Date.now()).toISOString()
+  };
+}
+
+async function loadFromSupabase() {
+  const [peopleRes, tasksRes, docsRes, settingsRes] = await Promise.all([
+    supabaseClient.from('people').select('*').order('created_at', { ascending: false }),
+    supabaseClient.from('hr_tasks').select('*').order('created_at', { ascending: false }),
+    supabaseClient.from('document_links').select('*').order('created_at', { ascending: false }),
+    supabaseClient.from('workspace_settings').select('*').eq('id', 'default').maybeSingle()
+  ]);
+
+  const error = peopleRes.error || tasksRes.error || docsRes.error || settingsRes.error;
+
+  if (error) {
+    console.error(error);
+    toast('Could not load data from Supabase.');
+    return;
+  }
+
+  state.people = (peopleRes.data || []).map(dbPersonToState);
+  state.tasks = (tasksRes.data || []).map(dbTaskToState);
+  state.documents = (docsRes.data || []).map(dbDocumentToState);
+  state.company = settingsRes.data?.company || 'Sync2VA People Desk';
+
+  render();
+}
+
+async function saveRecordToSupabase(kind, record) {
+  let table = '';
+  let payload = {};
+
+  if (kind === 'person') {
+    table = 'people';
+    payload = personToDb(record);
+  }
+
+  if (kind === 'task') {
+    table = 'hr_tasks';
+    payload = taskToDb(record);
+  }
+
+  if (kind === 'document') {
+    table = 'document_links';
+    payload = documentToDb(record);
+  }
+
+  const { error } = await supabaseClient.from(table).upsert(payload);
+
+  if (error) throw error;
+}
+
+async function deleteRecordFromSupabase(action, id) {
+  let table = '';
+
+  if (action === 'delete-person') table = 'people';
+  if (action === 'delete-task') table = 'hr_tasks';
+  if (action === 'delete-document') table = 'document_links';
+
+  const { error } = await supabaseClient.from(table).delete().eq('id', id);
+
+  if (error) throw error;
+}
+
+async function toggleTaskInSupabase(id) {
+  const task = state.tasks.find(x => x.id === id);
+  if (!task) return;
+
+  const newStatus = task.status === 'Done' ? 'Open' : 'Done';
+
+  const { error } = await supabaseClient
+    .from('hr_tasks')
+    .update({ status: newStatus })
+    .eq('id', id);
+
+  if (error) throw error;
+}
+
+async function clearAllSupabaseData() {
+  await supabaseClient.from('document_links').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  await supabaseClient.from('hr_tasks').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  await supabaseClient.from('people').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+
+  await supabaseClient
+    .from('workspace_settings')
+    .upsert({ id: 'default', company: 'Sync2VA People Desk' });
+}
+
+function setAppVisible(isLoggedIn) {
+  document.querySelector('header').hidden = !isLoggedIn;
+  document.querySelector('main').hidden = !isLoggedIn;
+  $('#authPanel').hidden = isLoggedIn;
+}
+
+async function initAuth() {
+  const { data } = await supabaseClient.auth.getSession();
+
+  currentUser = data.session?.user || null;
+  setAppVisible(!!currentUser);
+
+  if (currentUser) {
+    await loadFromSupabase();
+  }
+
+  supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+    currentUser = session?.user || null;
+    setAppVisible(!!currentUser);
+
+    if (currentUser) {
+      await loadFromSupabase();
+    }
+  });
+}
   function parseCsv(text){ const rows=[], row=[]; let field='', quoted=false; for(let i=0;i<text.length;i++){const c=text[i],next=text[i+1];if(c==='"'&&quoted&&next==='"'){field+='"';i++;continue}if(c==='"'){quoted=!quoted;continue}if(c===','&&!quoted){row.push(field);field='';continue}if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&next==='\n')i++;row.push(field);field='';if(row.some(v=>v!==''))rows.push(row.splice(0));continue}field+=c}row.push(field);if(row.some(v=>v!==''))rows.push(row);return rows; }
   async function seedTeamMembers(){
     if(state.seedVersion>=2)return;
@@ -65,7 +298,7 @@
       state.version=2; state.seedVersion=2; render(); toast(`${state.people.length} team members loaded from the CSV.`);
     }catch{ state.people=[]; state.version=2; state.seedVersion=2; render(); toast('The team CSV could not be read.'); }
   }
-  const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
+  const save = () => {};
   let toastTimer, pendingAttachmentPersonId=''; function toast(message){ const t=$('#toast'); t.textContent=message; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2800); }
   function downloadJson(payload,filename){const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=el('a',{href:url,download:filename});link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
   function filenamePart(text){return clean(text,80).replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').toLowerCase()||'team-member'}
@@ -75,7 +308,7 @@
   function dueClass(t){ if(t.status==='Done')return 'muted'; if(!t.due)return 'muted'; return t.due<today()?'warning':t.due===today()?'warning':'success'; }
   function clearNode(n){n.replaceChildren()}
   function pill(text,kind=''){return el('span',{className:'pill '+kind,text})}
-  function render(){ save(); $('#companyName').textContent=state.company; $('#workspaceInput').value=state.company; renderOverview();renderPeople();renderTasks();renderDocuments(); }
+  function render(){ $('#companyName').textContent=state.company; $('#workspaceInput').value=state.company; renderOverview();renderPeople();renderTasks();renderDocuments(); }
   function renderOverview(){
     const stats=$('#stats'); clearNode(stats);
     const open=state.tasks.filter(t=>t.status==='Open');
@@ -131,16 +364,104 @@
     $('#modal').classList.add('open'); form.querySelector('input')?.focus();
   }
   function closeModal(){$('#modal').classList.remove('open')}
-  $('#modalForm').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.currentTarget),kind=e.currentTarget.dataset.kind,id=e.currentTarget.dataset.id;let collection,record; if(kind==='person'){collection='people';const selectedRole=String(f.get('role')||''),selectedDepartment=String(f.get('department')||''),role=selectedRole==='__custom__'?clean(f.get('customRole'),100):selectedRole,department=selectedDepartment==='__custom__'?clean(f.get('customDepartment'),100):selectedDepartment;record={id:id||uid(),name:clean(f.get('name'),100),role,department,course:COURSE_ROLES.has(role)&&COURSE_OPTIONS.includes(f.get('course'))?f.get('course'):'',email:clean(f.get('email'),160),phone:clean(f.get('phone'),40),homeAddress:clean(f.get('homeAddress'),300),startDate:clean(f.get('startDate'),50),facebookUrl:safeUrl(f.get('facebookUrl')),birthday:clean(f.get('birthday'),50),accountNumber:clean(f.get('accountNumber'),100),bankInstitution:clean(f.get('bankInstitution'),100),status:clean(f.get('status'),40)||'Active',rate:clean(f.get('rate'),80),supervisor:clean(f.get('supervisor'),100),notes:clean(f.get('notes'),600),createdAt:id?(state.people.find(x=>x.id===id)?.createdAt||Date.now()):Date.now()};if(!record.name)return toast('A name is required.');if(!record.role)return toast('Choose or add a role.');if(!record.department)return toast('Choose or add a department.')} if(kind==='task'){collection='tasks';record={id:id||uid(),title:clean(f.get('title'),160),owner:clean(f.get('owner'),100),due:/^\d{4}-\d{2}-\d{2}$/.test(f.get('due')||'')?f.get('due'):'',priority:['Low','Medium','High'].includes(f.get('priority'))?f.get('priority'):'Medium',status:f.get('status')==='Done'?'Done':'Open',createdAt:id?(state.tasks.find(x=>x.id===id)?.createdAt||Date.now()):Date.now()};if(!record.title)return toast('A task title is required.')} if(kind==='document'){collection='documents';record={id:id||uid(),title:clean(f.get('title'),140),category:clean(f.get('category'),80),url:safeUrl(f.get('url')),notes:clean(f.get('notes'),600),createdAt:id?(state.documents.find(x=>x.id===id)?.createdAt||Date.now()):Date.now()};if(!record.title)return toast('A title is required.');if(!record.url)return toast('Please enter a valid HTTPS URL.')}const i=state[collection].findIndex(x=>x.id===record.id);if(i<0)state[collection].unshift(record);else state[collection][i]=record;closeModal();render();toast('Saved locally.');});
-  document.addEventListener('click',e=>{const b=e.target.closest('[data-action],[data-goto]');if(!b)return;if(b.dataset.goto){show(b.dataset.goto);return}const a=b.dataset.action,id=b.dataset.id;
+  $('#modalForm').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.currentTarget),kind=e.currentTarget.dataset.kind,id=e.currentTarget.dataset.id;let collection,record; if(kind==='person'){collection='people';const selectedRole=String(f.get('role')||''),selectedDepartment=String(f.get('department')||''),role=selectedRole==='__custom__'?clean(f.get('customRole'),100):selectedRole,department=selectedDepartment==='__custom__'?clean(f.get('customDepartment'),100):selectedDepartment;record={id:id||uid(),name:clean(f.get('name'),100),role,department,course:COURSE_ROLES.has(role)&&COURSE_OPTIONS.includes(f.get('course'))?f.get('course'):'',email:clean(f.get('email'),160),phone:clean(f.get('phone'),40),homeAddress:clean(f.get('homeAddress'),300),startDate:clean(f.get('startDate'),50),facebookUrl:safeUrl(f.get('facebookUrl')),birthday:clean(f.get('birthday'),50),accountNumber:clean(f.get('accountNumber'),100),bankInstitution:clean(f.get('bankInstitution'),100),status:clean(f.get('status'),40)||'Active',rate:clean(f.get('rate'),80),supervisor:clean(f.get('supervisor'),100),notes:clean(f.get('notes'),600),createdAt:id?(state.people.find(x=>x.id===id)?.createdAt||Date.now()):Date.now()};if(!record.name)return toast('A name is required.');if(!record.role)return toast('Choose or add a role.');if(!record.department)return toast('Choose or add a department.')} if(kind==='task'){collection='tasks';record={id:id||uid(),title:clean(f.get('title'),160),owner:clean(f.get('owner'),100),due:/^\d{4}-\d{2}-\d{2}$/.test(f.get('due')||'')?f.get('due'):'',priority:['Low','Medium','High'].includes(f.get('priority'))?f.get('priority'):'Medium',status:f.get('status')==='Done'?'Done':'Open',createdAt:id?(state.tasks.find(x=>x.id===id)?.createdAt||Date.now()):Date.now()};if(!record.title)return toast('A task title is required.')} if(kind==='document'){collection='documents';record={id:id||uid(),title:clean(f.get('title'),140),category:clean(f.get('category'),80),url:safeUrl(f.get('url')),notes:clean(f.get('notes'),600),createdAt:id?(state.documents.find(x=>x.id===id)?.createdAt||Date.now()):Date.now()};if(!record.title)return toast('A title is required.');if(!record.url)return toast('Please enter a valid HTTPS URL.')}saveRecordToSupabase(kind, record)
+  .then(() => loadFromSupabase())
+  .then(() => {
+    closeModal();
+    toast('Saved online.');
+  })
+  .catch(error => {
+    console.error(error);
+    toast('Could not save online.');
+  });});
+  document.addEventListener('click',async e=>{const b=e.target.closest('[data-action],[data-goto]');if(!b)return;if(b.dataset.goto){show(b.dataset.goto);return}const a=b.dataset.action,id=b.dataset.id;    if (['delete-person', 'delete-task', 'delete-document'].includes(a)) {
+      if (confirm('Delete this item from the online HR database?')) {
+        try {
+          await deleteRecordFromSupabase(a, id);
+          await loadFromSupabase();
+          toast('Deleted online.');
+        } catch (error) {
+          console.error(error);
+          toast('Could not delete online.');
+        }
+      }
+      return;
+    }
+
+    if (a === 'toggle-task') {
+      try {
+        await toggleTaskInSupabase(id);
+        await loadFromSupabase();
+        toast('Task updated online.');
+      } catch (error) {
+        console.error(error);
+        toast('Could not update task.');
+      }
+      return;
+    }
+
+    if (a === 'clear-all') {
+      if (confirm('Permanently clear all online HR data?')) {
+        try {
+          await clearAllSupabaseData();
+          await loadFromSupabase();
+          toast('Online HR data cleared.');
+        } catch (error) {
+          console.error(error);
+          toast('Could not clear online data.');
+        }
+      }
+      return;
+    }
     if(a==='upload-file'){if(!state.people.some(x=>x.id===id))return;pendingAttachmentPersonId=id;$('#employeeAttachmentFile').click();return}
     if(a==='show-files'){const person=state.people.find(x=>x.id===id);if(person)openFiles(person);return}
     if(a==='close-files'){closeFiles();return}
     if(a==='download-file'){const person=state.people.find(x=>x.id===b.dataset.personId),file=person?.attachments?.find(x=>x.id===b.dataset.fileId);if(file){const link=el('a',{href:file.data,download:file.name});link.click()}return}
     if(a==='remove-file'){const person=state.people.find(x=>x.id===b.dataset.personId);if(person&&confirm(`Remove ${person.attachments?.find(x=>x.id===b.dataset.fileId)?.name||'this file'}?`)){person.attachments=person.attachments.filter(x=>x.id!==b.dataset.fileId);render();openFiles(person);toast('File removed.')}return}
     if(a==='close-modal')closeModal();if(a==='new-person')openModal('person');if(a==='new-task')openModal('task');if(a==='new-document')openModal('document');if(a==='edit-person')openModal('person',state.people.find(x=>x.id===id));if(a==='edit-task')openModal('task',state.tasks.find(x=>x.id===id));if(a==='edit-document')openModal('document',state.documents.find(x=>x.id===id));if(a==='delete-person'||a==='delete-task'||a==='delete-document'){const key={"delete-person":"people","delete-task":"tasks","delete-document":"documents"}[a];if(confirm('Delete this item from this browser?')){state[key]=state[key].filter(x=>x.id!==id);render();toast('Deleted.')}}if(a==='toggle-task'){const t=state.tasks.find(x=>x.id===id);if(t){t.status=t.status==='Done'?'Open':'Done';render();toast(t.status==='Done'?'Task completed.':'Task reopened.')}}if(a==='export'){downloadJson(state,'people-desk-backup-'+today()+'.json');toast('Backup downloaded.')}if(a==='clear-all'){if(confirm('Permanently clear this browser’s People Desk data?')){state={version:2,seedVersion:2,company:'People Desk',people:[],tasks:[],documents:[]};render();toast('Local data cleared.')}}});
-  function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.view===id)))}document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>show(t.dataset.view)));$('#settingsForm').addEventListener('submit',e=>{e.preventDefault();state.company=clean($('#workspaceInput').value,80)||'People Desk';render();toast('Workspace name saved.')});$('#importFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;if(file.size>2_000_000){toast('That backup is too large.');return}const reader=new FileReader();reader.onload=()=>{try{state=normalise(JSON.parse(reader.result));render();toast('Backup imported safely.')}catch{toast('That file is not a valid backup.')}};reader.readAsText(file);e.target.value=''});
-  $('#employeeAttachmentFile').addEventListener('change',e=>{const file=e.target.files[0],targetId=pendingAttachmentPersonId;pendingAttachmentPersonId='';e.target.value='';if(!file||!targetId)return;if(file.size>1_000_000){toast('Please choose a file smaller than 1 MB.');return}const used=state.people.flatMap(p=>p.attachments||[]).reduce((sum,a)=>sum+(Number(a.size)||0),0);if(used+file.size>3_000_000){toast('Attachment storage is limited to 3 MB total. Remove a file first.');return}const reader=new FileReader();reader.onload=()=>{const person=state.people.find(x=>x.id===targetId);if(!person||typeof reader.result!=='string')return;person.attachments=person.attachments||[];person.attachments.push({id:uid(),name:clean(file.name,160)||'Attachment',type:clean(file.type,100)||'application/octet-stream',size:file.size,data:reader.result,uploadedAt:new Date().toISOString()});render();toast(`File added to ${person.name||'team member'}.`)};reader.onerror=()=>toast('That file could not be read.');reader.readAsDataURL(file)});$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});$('#fileModal').addEventListener('click',e=>{if(e.target.id==='fileModal')closeFiles()});render();seedTeamMembers();
+  function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.view===id)))}document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>show(t.dataset.view)));$('#settingsForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const company = clean($('#workspaceInput').value, 80) || 'Sync2VA People Desk';
+
+  const { error } = await supabaseClient
+    .from('workspace_settings')
+    .upsert({ id: 'default', company });
+
+  if (error) {
+    console.error(error);
+    toast('Could not save workspace name online.');
+    return;
+  }
+
+  await loadFromSupabase();
+  toast('Workspace name saved online.');
+});$('#importFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;if(file.size>2_000_000){toast('That backup is too large.');return}const reader=new FileReader();reader.onload=()=>{try{state=normalise(JSON.parse(reader.result));render();toast('Backup imported safely.')}catch{toast('That file is not a valid backup.')}};reader.readAsText(file);e.target.value=''});
+  $('#employeeAttachmentFile').addEventListener('change',e=>{const file=e.target.files[0],targetId=pendingAttachmentPersonId;pendingAttachmentPersonId='';e.target.value='';if(!file||!targetId)return;if(file.size>1_000_000){toast('Please choose a file smaller than 1 MB.');return}const used=state.people.flatMap(p=>p.attachments||[]).reduce((sum,a)=>sum+(Number(a.size)||0),0);if(used+file.size>3_000_000){toast('Attachment storage is limited to 3 MB total. Remove a file first.');return}const reader=new FileReader();reader.onload=()=>{const person=state.people.find(x=>x.id===targetId);if(!person||typeof reader.result!=='string')return;person.attachments=person.attachments||[];person.attachments.push({id:uid(),name:clean(file.name,160)||'Attachment',type:clean(file.type,100)||'application/octet-stream',size:file.size,data:reader.result,uploadedAt:new Date().toISOString()});render();toast(`File added to ${person.name||'team member'}.`)};reader.onerror=()=>toast('That file could not be read.');reader.readAsDataURL(file)});$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});$('#fileModal').addEventListener('click',e=>{if(e.target.id==='fileModal')closeFiles()});initAuth();$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const email = $('#loginEmail').value.trim();
+  const password = $('#loginPassword').value;
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    console.error(error);
+    toast('Login failed. Check email and password.');
+    return;
+  }
+
+  toast('Signed in.');
+});
+
+$('#logoutBtn').addEventListener('click', async () => {
+  await supabaseClient.auth.signOut();
+  setAppVisible(false);
+  toast('Signed out.');
+});
   </script>
 </body>
 </html>
